@@ -2,8 +2,8 @@ package de.diedavids.jmix.jesr.entity;
 
 import de.diedavids.jmix.jesr.exception.InvalidEntityReferenceException;
 import de.diedavids.jmix.jesr.exception.NotExistingEntityReferenceException;
-import de.diedavids.jmix.jesr.test_support.Foo;
-import de.diedavids.jmix.jesr.test_support.FooProvisioning;
+import de.diedavids.jmix.jesr.test_support.Document;
+import de.diedavids.jmix.jesr.test_support.DocumentProvisioning;
 import io.jmix.core.DataManager;
 import io.jmix.core.Id;
 import io.jmix.core.IdSerialization;
@@ -38,13 +38,13 @@ class EntitySoftReferenceTest {
         void given_validEntity_expect_validStringRepresentation() {
 
             // given
-            final Foo foo = fooWithRandomId();
+            final Document document = fooWithRandomId();
 
             // when
-            final String actual = sut.toEntityReference(foo);
+            final String actual = sut.toEntityReference(document);
 
             // then
-            assertThat(actual).isEqualTo(entityReferenceOf(foo));
+            assertThat(actual).isEqualTo(entityReferenceOf(document));
         }
 
         @Test
@@ -54,7 +54,7 @@ class EntitySoftReferenceTest {
             final String actual = sut.toEntityReference(null);
 
             // then
-            assertThat(actual).isEmpty();
+            assertThat(actual).isNull();
         }
     }
 
@@ -65,64 +65,62 @@ class EntitySoftReferenceTest {
         void given_validEntityRepresentation_expect_validEntity() {
 
             // given
-            Foo foo = fooWithRandomId();
+            Document document = fooWithRandomId();
 
-            Foo storedFoo = dataManager.save(foo);
+            Document storedDocument = dataManager.save(document);
 
             // when
-            final Foo actual = (Foo) sut.toEntity(entityReferenceOf(storedFoo));
+            final Document actual = (Document) sut.toEntity(entityReferenceOf(storedDocument));
 
             // then
-            assertThat(actual.getId()).isEqualTo(storedFoo.getId());
-            assertThat(actual.getName()).isEqualTo(storedFoo.getName());
+            assertThat(actual.getId()).isEqualTo(storedDocument.getId());
+            assertThat(actual.getName()).isEqualTo(storedDocument.getName());
         }
 
-        @ParameterizedTest
-        @NullAndEmptySource
-        @CsvSource("invalidValue")
-        void given_emptyString_expect_NotExistingEntitySoftReferenceException(String invalidValue) {
+        @Test
+        void given_emptyString_expect_NotExistingEntitySoftReferenceException() {
 
             // when
             InvalidEntityReferenceException thrown = assertThrows(InvalidEntityReferenceException.class, () ->
-                    sut.toEntity(invalidValue)
+                    sut.toEntity("invalidValue")
             );
 
             // then
-            assertThat(thrown.getEntityReference()).isEqualTo(invalidValue);
+            assertThat(thrown.getEntityReference()).isEqualTo("invalidValue");
         }
 
         @Test
         void given_notExistingSoftReference_expect_InvalidEntitySoftReferenceException() {
 
             // given
-            Foo foo = fooWithRandomId();
-            dataManager.save(foo);
+            Document document = fooWithRandomId();
+            dataManager.save(document);
 
 
             // and
             final UUID notExistingIdOfFoo = UUID.randomUUID();
-            Foo notPersistedFoo = fooWithRandomId();
-            notPersistedFoo.setId(notExistingIdOfFoo);
+            Document notPersistedDocument = fooWithRandomId();
+            notPersistedDocument.setId(notExistingIdOfFoo);
 
-            assertThat(dataManager.load(Id.of(notPersistedFoo)).optional())
+            assertThat(dataManager.load(Id.of(notPersistedDocument)).optional())
                     .isEmpty();
 
             // when
             NotExistingEntityReferenceException thrown = assertThrows(NotExistingEntityReferenceException.class, () ->
-                    sut.toEntity(entityReferenceOf(notPersistedFoo))
+                    sut.toEntity(entityReferenceOf(notPersistedDocument))
             );
 
             // then
-            assertThat(thrown.getEntityReference()).isEqualTo(entityReferenceOf(notPersistedFoo));
+            assertThat(thrown.getEntityReference()).isEqualTo(entityReferenceOf(notPersistedDocument));
         }
     }
 
-    private String entityReferenceOf(Foo storedFoo) {
-        return idSerialization.idToString(Id.of(storedFoo));
+    private String entityReferenceOf(Document storedDocument) {
+        return idSerialization.idToString(Id.of(storedDocument));
     }
 
-    private Foo fooWithRandomId() {
-        return FooProvisioning.defaultFooBuilder()
+    private Document fooWithRandomId() {
+        return DocumentProvisioning.defaultFooBuilder()
                 .build();
     }
 

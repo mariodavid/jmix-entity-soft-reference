@@ -7,7 +7,7 @@
 
     <changeSet id="1" author="jmix-entity-soft-reference-addon">
 
-        <createTable tableName="JESR_FOO">
+        <createTable tableName="JESR_DOCUMENT">
             <column name="ID" type="${uuid.type}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -16,6 +16,8 @@
             </column>
             <column name="NAME" type="varchar(255)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="REFERS_TO" type="varchar(255)">
             </column>
         </createTable>
 

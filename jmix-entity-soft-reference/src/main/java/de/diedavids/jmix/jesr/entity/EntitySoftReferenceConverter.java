@@ -1,33 +1,30 @@
 package de.diedavids.jmix.jesr.entity;
 
-import com.google.common.base.Strings;
-import de.diedavids.jmix.jesr.exception.InvalidEntityReferenceException;
-import de.diedavids.jmix.jesr.exception.NotExistingEntityReferenceException;
-import io.jmix.core.Entity;
-import io.jmix.core.Id;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import de.diedavids.jmix.jesr.AppBeans;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
 @Converter(autoApply = true)
-public class EntitySoftReferenceConverter implements AttributeConverter<Entity, String> {
+public class EntitySoftReferenceConverter implements AttributeConverter<Object, String> {
 
-    private final EntitySoftReference entitySoftReference;
-
-    public EntitySoftReferenceConverter(EntitySoftReference entitySoftReference) {
-        this.entitySoftReference = entitySoftReference;
+    public EntitySoftReferenceConverter() {
     }
 
     @Override
-    public String convertToDatabaseColumn(Entity entity) {
-        return entitySoftReference.toEntityReference(entity);
+    public String convertToDatabaseColumn(Object entity) {
+        return getEntitySoftReference().toEntityReference(entity);
+    }
+
+    private EntitySoftReference getEntitySoftReference() {
+        return AppBeans.getBean(EntitySoftReference.class);
     }
 
     @Override
-    public Entity convertToEntityAttribute(String value) {
-        return entitySoftReference.toEntity(value);
+    public Object convertToEntityAttribute(String value) {
+        return getEntitySoftReference().toEntity(value);
     }
+
 
 }

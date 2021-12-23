@@ -13,11 +13,10 @@ import java.util.Locale;
 
 @DatatypeDef(
         id = "EntitySoftReference",
-        javaClass = Entity.class
+        javaClass = Object.class
 )
 @Ddl("varchar(255)")
-public class EntitySoftReferenceDatatype implements Datatype<Entity> {
-
+public class EntitySoftReferenceDatatype implements Datatype<Object> {
 
     /**
      * workaround to inject application context to retrieve IdSerialization
@@ -50,13 +49,13 @@ public class EntitySoftReferenceDatatype implements Datatype<Entity> {
 
     @Nullable
     @Override
-    public Entity parse(@Nullable String value) {
+    public Object parse(@Nullable String value) {
         return entitySoftReference().toEntity(value);
     }
 
     @Nullable
     @Override
-    public Entity parse(@Nullable String value, Locale locale) {
+    public Object parse(@Nullable String value, Locale locale) {
         return parse(value);
     }
 

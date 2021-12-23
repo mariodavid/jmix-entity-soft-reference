@@ -1,6 +1,6 @@
 package de.diedavids.jmix.jesr;
 
-import de.diedavids.jmix.jesr.test_support.Foo;
+import de.diedavids.jmix.jesr.test_support.Document;
 import io.jmix.core.DataManager;
 import io.jmix.core.Id;
 import org.junit.jupiter.api.Test;
@@ -21,13 +21,13 @@ class JesrTest {
 
 	@Test
 	void testFoo() {
-		Foo foo = dataManager.create(Foo.class);
-		foo.setName("abc");
+		Document document = dataManager.create(Document.class);
+		document.setName("abc");
 
-		Foo foo1 = dataManager.save(foo);
-		assertEquals(foo, foo1);
+		Document document1 = dataManager.save(document);
+		assertEquals(document, document1);
 
-		Foo foo2 = dataManager.load(Id.of(foo)).one();
-		assertEquals(foo, foo2);
+		Document document2 = dataManager.load(Id.of(document)).one();
+		assertEquals(document, document2);
 	}
 }

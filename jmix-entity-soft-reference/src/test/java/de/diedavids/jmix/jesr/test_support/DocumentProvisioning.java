@@ -2,17 +2,17 @@ package de.diedavids.jmix.jesr.test_support;
 
 import java.util.UUID;
 
-public class FooProvisioning {
+public class DocumentProvisioning {
 
     private static final String DEFAULT_NAME = "name";
 
-    static public FooBuilder defaultFooBuilder() {
-        return FooBuilder.aFoo()
+    static public DocumentBuilder defaultFooBuilder() {
+        return DocumentBuilder.aDocument()
                 .id(UUID.randomUUID())
                 .name(DEFAULT_NAME);
     }
 
-    static public Foo defaultFoo() {
+    static public Document defaultFoo() {
         return defaultFooBuilder().build();
     }
 }

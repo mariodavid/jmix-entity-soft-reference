@@ -1,7 +1,7 @@
 package de.diedavids.jmix.jesr.entity;
 
-import de.diedavids.jmix.jesr.test_support.Foo;
-import de.diedavids.jmix.jesr.test_support.FooProvisioning;
+import de.diedavids.jmix.jesr.test_support.Document;
+import de.diedavids.jmix.jesr.test_support.DocumentProvisioning;
 import io.jmix.core.DataManager;
 import io.jmix.core.Id;
 import io.jmix.core.IdSerialization;
@@ -31,13 +31,13 @@ class EntitySoftReferenceDatatypeTest {
         void given_validEntity_expect_validStringRepresentation() {
 
             // given
-            final Foo foo = fooWithRandomId();
+            final Document document = fooWithRandomId();
 
             // when
-            final String actual = sut.format(foo);
+            final String actual = sut.format(document);
 
             // then
-            assertThat(actual).isEqualTo(entityReferenceOf(foo));
+            assertThat(actual).isEqualTo(entityReferenceOf(document));
         }
     }
 
@@ -48,25 +48,25 @@ class EntitySoftReferenceDatatypeTest {
         void given_validEntityRepresentation_expect_validEntity() {
 
             // given
-            Foo foo = fooWithRandomId();
+            Document document = fooWithRandomId();
 
-            Foo storedFoo = dataManager.save(foo);
+            Document storedDocument = dataManager.save(document);
 
             // when
-            final Foo actual = (Foo) sut.parse(entityReferenceOf(storedFoo));
+            final Document actual = (Document) sut.parse(entityReferenceOf(storedDocument));
 
             // then
-            assertThat(actual.getId()).isEqualTo(storedFoo.getId());
-            assertThat(actual.getName()).isEqualTo(storedFoo.getName());
+            assertThat(actual.getId()).isEqualTo(storedDocument.getId());
+            assertThat(actual.getName()).isEqualTo(storedDocument.getName());
         }
     }
 
-    private String entityReferenceOf(Foo storedFoo) {
-        return idSerialization.idToString(Id.of(storedFoo));
+    private String entityReferenceOf(Document storedDocument) {
+        return idSerialization.idToString(Id.of(storedDocument));
     }
 
-    private Foo fooWithRandomId() {
-        return FooProvisioning.defaultFooBuilder()
+    private Document fooWithRandomId() {
+        return DocumentProvisioning.defaultFooBuilder()
                 .build();
     }
 

@@ -4,26 +4,16 @@ import com.google.common.base.Strings;
 import de.diedavids.jmix.jesr.exception.InvalidEntityReferenceException;
 import de.diedavids.jmix.jesr.exception.NotExistingEntityReferenceException;
 import io.jmix.core.DataManager;
-import io.jmix.core.Entity;
 import io.jmix.core.Id;
 import io.jmix.core.IdSerialization;
-import io.jmix.core.metamodel.annotation.DatatypeDef;
-import io.jmix.core.metamodel.annotation.Ddl;
-import io.jmix.core.metamodel.datatype.Datatype;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Locale;
-import java.util.Optional;
 
 
 @Component
 public class EntitySoftReference {
-
 
     private static final Logger log = LoggerFactory.getLogger(EntitySoftReference.class);
 
@@ -35,29 +25,31 @@ public class EntitySoftReference {
         this.idSerialization = idSerialization;
     }
 
-    @Nonnull
-    public String toEntityReference(@Nullable Object value) {
-        return Optional.ofNullable(value)
-                .map(it -> idSerialization.idToString(Id.of(it)))
-                .orElse("");
+    public <E> String toEntityReference(@Nullable E value) {
+
+        if (value == null) {
+            return null;
+        }
+
+        return idSerialization.idToString(Id.of(value));
     }
 
     @Nullable
-    public Entity toEntity(@Nullable String value) {
+    public Object toEntity(@Nullable String value) {
+
+        if (Strings.isNullOrEmpty(value)) {
+            return null;
+        }
 
         final Id<Object> entityId = entityReferenceOf(value);
 
-        return (Entity) dataManager
+        return dataManager
                 .load(entityId)
                 .optional()
                 .orElseThrow(() -> new NotExistingEntityReferenceException(value));
     }
 
     private Id<Object> entityReferenceOf(String value) {
-        if (Strings.isNullOrEmpty(value)) {
-            log.error("Value is not a valid Entity Soft Reference through IdSerialization: {}", value);
-            throw new InvalidEntityReferenceException(value);
-        }
         try {
             return idSerialization.stringToId(value);
         } catch (StringIndexOutOfBoundsException e) {

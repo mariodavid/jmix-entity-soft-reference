@@ -1,16 +1,18 @@
 package de.diedavids.jmix.jesr.test_support;
 
+import de.diedavids.jmix.jesr.entity.EntitySoftReferenceConverter;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.PropertyDatatype;
 
 import javax.persistence.*;
 import java.util.UUID;
 
 @JmixEntity
-@Entity(name = "jesr_Foo")
-@Table(name = "JESR_FOO")
-public class Foo {
+@Entity(name = "jesr_Document")
+@Table(name = "JESR_DOCUMENT")
+public class Document {
 
 
     @Id
@@ -25,6 +27,20 @@ public class Foo {
     @InstanceName
     @Column(name = "NAME", nullable = false)
     protected String name;
+
+    @PropertyDatatype("EntitySoftReference")
+    @Column(name = "REFERS_TO")
+    @Convert(converter = EntitySoftReferenceConverter.class)
+    private Object refersTo;
+
+    public SupportsDocumentReference getRefersTo() {
+        return (SupportsDocumentReference) refersTo;
+    }
+
+    public void setRefersTo(SupportsDocumentReference refersTo) {
+        this.refersTo = refersTo;
+    }
+
 
     public UUID getId() {
         return id;
