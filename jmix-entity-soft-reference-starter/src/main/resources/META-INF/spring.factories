@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=  de.diedavids.jmix.jesr.autoconfigure.JesrAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=  de.diedavids.jmix.softreference.autoconfigure.SoftReferenceAutoConfiguration

@@ -7,8 +7,7 @@ buildscript {
     }
 }
 
-group = 'de.diedavids.jmix'
-version = '0.0.1-SNAPSHOT'
+group = 'de.diedavids.jmix.softreference'
 
 subprojects {
     apply plugin: 'java-library'
@@ -24,7 +23,7 @@ subprojects {
 
     jmix {
         bomVersion = '1.1.1'
-        projectId = 'jesr'
+        projectId = 'softreference'
     }
 
     group = this.group
@@ -46,12 +45,12 @@ subprojects {
     publishing {
         repositories {
             maven {
-                url = 'https://myrepo/releases/'
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/" + System.getenv("GITHUB_REPOSITORY"))
                 credentials {
-                    username rootProject.hasProperty('uploadUser') ? rootProject['uploadUser'] : 'admin'
-                    password rootProject.hasProperty('uploadPassword') ? rootProject['uploadPassword'] : 'admin'
+                    username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USERNAME")
+                    password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
                 }
-                allowInsecureProtocol = true
             }
         }
         publications {
