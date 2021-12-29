@@ -53,6 +53,33 @@ To see this application component in action, check out this example: [jmix-entit
 
 ## Usage
 
+### Entity Attribute
+
+```java
+@Entity
+class Document {
+    @PropertyDatatype("SoftReference")
+    @Column(name = "REFERS_TO")
+    @Convert(converter = SoftReferenceConverter.class)
+    private Object refersTo;
+
+    public SupportsDocumentReference getRefersTo() {
+        return (SupportsDocumentReference) refersTo;
+    }
+
+    public void setRefersTo(SupportsDocumentReference refersTo) {
+        this.refersTo = refersTo;
+    }
+}
+```
+
+```java
+/**
+ * marker interface for entities that support Document references.
+ */
+public interface SupportsDocumentReference {}
+```
+
 ### Soft References as Table Columns
 
 In order to use a soft reference as a Table column, there is a class `de.diedavids.jmix.softreference.screen.SoftReferenceInstanceNameTableColumnGenerator` which can be used to create a column which renders the soft reference as a link with the instance name into the table.
