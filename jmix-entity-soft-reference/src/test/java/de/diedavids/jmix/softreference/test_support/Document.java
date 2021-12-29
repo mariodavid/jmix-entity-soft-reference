@@ -28,7 +28,7 @@ public class Document {
     @Column(name = "NAME", nullable = false)
     protected String name;
 
-    @PropertyDatatype("EntitySoftReference")
+    @PropertyDatatype("SoftReference")
     @Column(name = "REFERS_TO")
     @Convert(converter = SoftReferenceConverter.class)
     private Object refersTo;

@@ -100,3 +100,29 @@ In case you upgrade from the [CUBA Platform variant of Entity-Soft-Reference](ht
 
 * replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceInstanceNameTableColumnGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceInstanceNameTableColumnGenerator`
 * replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceFormFieldGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceFormFieldGenerator`
+
+### Soft Reference usage
+
+* replace `@MetaProperty(datatype = "EntitySoftReference")` --> `@PropertyDatatype("SoftReference")` when defining a soft reference
+* replace `com.haulmont.cuba.core.entity.Entity softReferenceAttribute` with `Object softReferenceAttribute`
+* introduce and use marker interface for getter / setter of the `softReferenceAttribute` attribute
+
+#### Example
+
+```java
+@Entity
+class Document {
+    @PropertyDatatype("SoftReference")
+    @Column(name = "REFERS_TO")
+    @Convert(converter = SoftReferenceConverter.class)
+    private Object refersTo;
+
+    public SupportsDocumentReference getRefersTo() {
+        return (SupportsDocumentReference) refersTo;
+    }
+
+    public void setRefersTo(SupportsDocumentReference refersTo) {
+        this.refersTo = refersTo;
+    }
+}
+```
