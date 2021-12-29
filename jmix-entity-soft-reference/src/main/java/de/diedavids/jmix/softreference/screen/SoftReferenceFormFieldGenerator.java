@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Helper class that generates a entity soft reference into a form component
+ * Helper class that generates an entity soft reference into a form component
  *
  * Usage:
  *
