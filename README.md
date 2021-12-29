@@ -7,7 +7,7 @@
 
 # Jmix Soft References for Entities
 
-This application component can be used for referencing entities without a foreign key in the database.
+This addon can be used for referencing entities without a foreign key in the database.
 
 ## Installation
 
@@ -15,7 +15,7 @@ Add the dependency to your project:
 
 ```groovy
 dependencies {
-  implementation 'de.diedavids.jmix.softreference:jmix-entity-softreference-starter:*addon-version*'
+  implementation 'de.diedavids.jmix.softreference:jmix-entity-soft-reference-starter:*addon-version*'
 }
 ```
 
