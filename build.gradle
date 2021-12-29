@@ -34,6 +34,9 @@ subprojects {
     def subArchivesBaseName = props.getProperty('archivesBaseName')
     def archName = subArchivesBaseName.substring(1, subArchivesBaseName.length() - 1)
 
+
+    sourceCompatibility = '1.8'
+
     java {
         withSourcesJar()
     }
