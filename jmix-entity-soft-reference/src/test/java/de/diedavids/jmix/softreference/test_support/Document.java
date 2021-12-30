@@ -2,11 +2,18 @@ package de.diedavids.jmix.softreference.test_support;
 
 import de.diedavids.jmix.softreference.entity.SoftReferenceConverter;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 import io.jmix.core.metamodel.annotation.PropertyDatatype;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.List;
 import java.util.UUID;
 
 @JmixEntity
@@ -16,13 +23,13 @@ public class Document {
 
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "ID", nullable = false)
     @JmixGeneratedValue
     private UUID id;
 
-    @Version
-    @Column(name = "VERSION", nullable = false)
-    private Integer version;
+    @Composition
+    @OneToMany(mappedBy = "document")
+    private List<Tag> tags;
 
     @InstanceName
     @Column(name = "NAME", nullable = false)
@@ -33,12 +40,20 @@ public class Document {
     @Convert(converter = SoftReferenceConverter.class)
     private Object refersTo;
 
-    public SupportsDocumentReference getRefersTo() {
-        return (SupportsDocumentReference) refersTo;
+    public List<Tag> getTags() {
+        return tags;
     }
 
-    public void setRefersTo(SupportsDocumentReference refersTo) {
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public void setRefersTo(Object refersTo) {
         this.refersTo = refersTo;
+    }
+
+    public Object getRefersTo() {
+        return refersTo;
     }
 
 
@@ -48,14 +63,6 @@ public class Document {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
     }
 
     public String getName() {

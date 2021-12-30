@@ -6,13 +6,13 @@ public class DocumentProvisioning {
 
     private static final String DEFAULT_NAME = "name";
 
-    static public DocumentBuilder defaultFooBuilder() {
+    static public DocumentBuilder defaultDocumentBuilder() {
         return DocumentBuilder.aDocument()
                 .id(UUID.randomUUID())
                 .name(DEFAULT_NAME);
     }
 
     static public Document defaultFoo() {
-        return defaultFooBuilder().build();
+        return defaultDocumentBuilder().build();
     }
 }

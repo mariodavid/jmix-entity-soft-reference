@@ -75,7 +75,7 @@ class SoftReferenceConverterTest {
     }
 
     private Document documentWithRandomId() {
-        return DocumentProvisioning.defaultFooBuilder()
+        return DocumentProvisioning.defaultDocumentBuilder()
                 .build();
     }
 

@@ -8,6 +8,8 @@
     <property name="uuid.type" dbms="oracle" value="varchar2(32)"/>
     <property name="uuid.type" dbms="!oracle" value="uuid"/>
 
-    <include file="/de/diedavids/jmix/softreference/liquibase/changelog/001-jmix-entity-soft-reference-addon.xml"/>
+    <include file="/de/diedavids/jmix/softreference/liquibase/changelog/14-010-customer-and-order.xml"/>
+    <include file="/de/diedavids/jmix/softreference/liquibase/changelog/14-020-document-with-soft-reference.xml"/>
+    <include file="/de/diedavids/jmix/softreference/liquibase/changelog/14-030-document-tags.xml"/>
 
 </databaseChangeLog>

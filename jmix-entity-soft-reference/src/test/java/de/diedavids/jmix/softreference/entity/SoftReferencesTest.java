@@ -35,7 +35,7 @@ class SoftReferencesTest {
         void given_validEntity_expect_validStringRepresentation() {
 
             // given
-            final Document document = fooWithRandomId();
+            final Document document = documentWithRandomId();
 
             // when
             final String actual = sut.softReferenceOf(document);
@@ -62,7 +62,7 @@ class SoftReferencesTest {
         void given_validEntityRepresentation_expect_validEntity() {
 
             // given
-            Document document = fooWithRandomId();
+            Document document = documentWithRandomId();
 
             Document storedDocument = dataManager.save(document);
 
@@ -90,13 +90,13 @@ class SoftReferencesTest {
         void given_notExistingSoftReference_expect_InvalidEntitySoftReferenceException() {
 
             // given
-            Document document = fooWithRandomId();
+            Document document = documentWithRandomId();
             dataManager.save(document);
 
 
             // and
             final UUID notExistingIdOfFoo = UUID.randomUUID();
-            Document notPersistedDocument = fooWithRandomId();
+            Document notPersistedDocument = documentWithRandomId();
             notPersistedDocument.setId(notExistingIdOfFoo);
 
             assertThat(dataManager.load(Id.of(notPersistedDocument)).optional())
@@ -116,8 +116,8 @@ class SoftReferencesTest {
         return idSerialization.idToString(Id.of(storedDocument));
     }
 
-    private Document fooWithRandomId() {
-        return DocumentProvisioning.defaultFooBuilder()
+    private Document documentWithRandomId() {
+        return DocumentProvisioning.defaultDocumentBuilder()
                 .build();
     }
 

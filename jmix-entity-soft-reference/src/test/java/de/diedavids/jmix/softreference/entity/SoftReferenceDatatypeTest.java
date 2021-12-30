@@ -66,7 +66,7 @@ class SoftReferenceDatatypeTest {
     }
 
     private Document fooWithRandomId() {
-        return DocumentProvisioning.defaultFooBuilder()
+        return DocumentProvisioning.defaultDocumentBuilder()
                 .build();
     }
 
