@@ -2,7 +2,7 @@
 ![CI Pipeline](https://github.com/mariodavid/jmix-entity-soft-reference/actions/workflows/test.yml/badge.svg)
 [![GitHub release](https://img.shields.io/github/release/mariodavid/jmix-entity-soft-reference.svg)](https://github.com/mariodavid/jmix-entity-soft-reference/releases/)
 [![Example](https://img.shields.io/badge/example-jmix--entity--soft--reference--example-brightgreen)](https://github.com/mariodavid/jmix-entity-soft-reference-example)
-[![Jmix Marketplace](https://img.shields.io/badge/marketplace-jmix--entity--soft--reference-orange)](https://www.jmix.io/marketplace/wizard)
+[![Jmix Marketplace](https://img.shields.io/badge/marketplace-jmix--entity--soft--reference-orange)](https://www.jmix.io/marketplace/entity-soft-reference)
 
 
 # Jmix Soft References for Entities
