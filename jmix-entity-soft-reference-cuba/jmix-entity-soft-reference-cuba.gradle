@@ -1,0 +1,29 @@
+archivesBaseName = 'jmix-entity-soft-reference-cuba'
+
+dependencies {
+    implementation 'io.jmix.core:jmix-core-starter'
+    implementation 'io.jmix.data:jmix-eclipselink-starter'
+    implementation 'io.jmix.ui:jmix-ui-starter'
+    implementation 'io.jmix.ui:jmix-ui-themes'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'org.springframework.boot:spring-boot-starter-web'
+
+
+    testImplementation "org.assertj:assertj-core:3.11.1"
+
+
+    testRuntimeOnly 'org.hsqldb:hsqldb'
+
+
+    implementation "io.jmix.cuba:jmix-cuba-starter"
+
+    testImplementation 'io.jmix.security:jmix-security-starter'
+    testImplementation 'io.jmix.security:jmix-security-ui-starter'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -2,6 +2,32 @@
 <project version="4">
   <component name="JmixDataStoreSettingsManager">
     <moduleSettings>
+      <entry key="jmix-entity-soft-reference-addon.jmix-entity-soft-reference-cuba.main">
+        <ModuleSettings>
+          <option name="dataStoreOptions">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettings />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
+      <entry key="jmix-entity-soft-reference-addon.jmix-entity-soft-reference-cuba.test">
+        <ModuleSettings>
+          <option name="dataStoreOptions">
+            <map>
+              <entry key="main">
+                <value>
+                  <DataStoreSettings />
+                </value>
+              </entry>
+            </map>
+          </option>
+        </ModuleSettings>
+      </entry>
       <entry key="jmix-entity-soft-reference-addon.jmix-entity-soft-reference.main">
         <ModuleSettings>
           <option name="dataStoreOptions">
