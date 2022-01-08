@@ -1,8 +1,11 @@
 package de.diedavids.jmix.softreference.cuba;
 
+import de.diedavids.jmix.softreference.SoftReferenceConfiguration;
 import io.jmix.core.annotation.JmixModule;
 import io.jmix.core.security.InMemoryUserRepository;
 import io.jmix.core.security.UserRepository;
+import io.jmix.eclipselink.EclipselinkConfiguration;
+import io.jmix.ui.UiConfiguration;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +21,7 @@ import javax.sql.DataSource;
 @EnableAutoConfiguration
 @Import(SoftReferenceCubaConfiguration.class)
 @PropertySource("classpath:/test_support/cuba-application.properties")
-@JmixModule(dependsOn = SoftReferenceCubaConfiguration.class)
+@JmixModule(dependsOn = {SoftReferenceCubaConfiguration.class, EclipselinkConfiguration.class, UiConfiguration.class, SoftReferenceConfiguration.class})
 public class SoftReferenceCubaTestConfiguration {
 
 

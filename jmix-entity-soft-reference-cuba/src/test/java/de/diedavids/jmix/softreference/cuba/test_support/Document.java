@@ -2,6 +2,7 @@ package de.diedavids.jmix.softreference.cuba.test_support;
 
 import com.haulmont.cuba.core.entity.BaseUuidEntity;
 import de.diedavids.jmix.softreference.cuba.entity.EntitySoftReferenceConverter;
+import de.diedavids.jmix.softreference.entity.SoftReferenceConverter;
 import io.jmix.core.metamodel.annotation.Composition;
 import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
@@ -32,6 +33,21 @@ public class Document extends BaseUuidEntity {
     @Convert(converter = EntitySoftReferenceConverter.class)
     private Object refersTo;
 
+
+    @PropertyDatatype("SoftReference")
+    @Column(name = "REFERS_TO_JMIX")
+    @Convert(converter = SoftReferenceConverter.class)
+    private Object refersToJmix;
+
+
+    public SupportsDocumentReference getRefersToJmix() {
+        return (SupportsDocumentReference) refersToJmix;
+    }
+
+    public void setRefersToJmix(SupportsDocumentReference refersToJmix) {
+        this.refersToJmix = refersToJmix;
+    }
+
     public List<Tag> getTags() {
         return tags;
     }
@@ -40,12 +56,12 @@ public class Document extends BaseUuidEntity {
         this.tags = tags;
     }
 
-    public void setRefersTo(Object refersTo) {
+    public void setRefersTo(io.jmix.core.Entity refersTo) {
         this.refersTo = refersTo;
     }
 
-    public Object getRefersTo() {
-        return refersTo;
+    public io.jmix.core.Entity getRefersTo() {
+        return (io.jmix.core.Entity) refersTo;
     }
 
 

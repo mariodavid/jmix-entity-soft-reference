@@ -15,7 +15,7 @@ import java.util.UUID;
 @JmixEntity
 @Table(name = "ORDER_")
 @Entity(name = "Order_")
-public class Order extends BaseUuidEntity {
+public class Order extends BaseUuidEntity implements SupportsDocumentReference {
 
     @InstanceName
     @Column(name = "ORDER_DATE")

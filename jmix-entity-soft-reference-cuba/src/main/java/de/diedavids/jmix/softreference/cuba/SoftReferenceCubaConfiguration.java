@@ -1,5 +1,6 @@
 package de.diedavids.jmix.softreference.cuba;
 
+import de.diedavids.jmix.softreference.SoftReferenceConfiguration;
 import io.jmix.core.annotation.JmixModule;
 import io.jmix.core.impl.scanning.AnnotationScanMetadataReaderFactory;
 import io.jmix.eclipselink.EclipselinkConfiguration;
@@ -17,7 +18,7 @@ import java.util.Collections;
 @Configuration
 @ComponentScan
 @ConfigurationPropertiesScan
-@JmixModule(dependsOn = {EclipselinkConfiguration.class, UiConfiguration.class})
+@JmixModule(dependsOn = {EclipselinkConfiguration.class, UiConfiguration.class, SoftReferenceConfiguration.class})
 @PropertySource(name = "de.diedavids.jmix.softreference.cuba", value = "classpath:/de/diedavids/jmix/softreference/cuba/module.properties")
 public class SoftReferenceCubaConfiguration {
 

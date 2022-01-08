@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @JmixEntity
 @Table(name = "CUSTOMER")
 @Entity
-public class Customer extends BaseUuidEntity {
+public class Customer extends BaseUuidEntity implements SupportsDocumentReference {
 
     @InstanceName
     @Column(name = "NAME")
@@ -19,5 +19,9 @@ public class Customer extends BaseUuidEntity {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

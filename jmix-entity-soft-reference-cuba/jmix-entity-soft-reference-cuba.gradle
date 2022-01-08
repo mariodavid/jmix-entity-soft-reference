@@ -1,6 +1,15 @@
 archivesBaseName = 'jmix-entity-soft-reference-cuba'
 
+
+jmix {
+    entitiesEnhancing {
+        jpaConverters = ['de.diedavids.jmix.softreference.entity.SoftReferenceConverter']
+    }
+}
+
 dependencies {
+
+    api project(':jmix-entity-soft-reference')
     implementation 'io.jmix.core:jmix-core-starter'
     implementation 'io.jmix.data:jmix-eclipselink-starter'
     implementation 'io.jmix.ui:jmix-ui-starter'

@@ -13,6 +13,7 @@
             <column name="NAME" type="VARCHAR(255)"/>
             <column name="FILE_" type="VARCHAR(1024)"/>
             <column name="REFERS_TO" type="varchar(255)"/>
+            <column name="REFERS_TO_JMIX" type="varchar(255)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

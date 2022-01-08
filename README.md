@@ -125,8 +125,70 @@ In case you upgrade from the [CUBA Platform variant of Entity-Soft-Reference](ht
 * make sure you are using the latest version of CUBA Platform (7.2)
 * make sure you are using the latest version of Entity Soft Reference (0.7.0)
 
-* replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceInstanceNameTableColumnGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceInstanceNameTableColumnGenerator`
-* replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceFormFieldGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceFormFieldGenerator`
+## Differences
+
+Between Jmix and CUBA there are two main differences that are relevant for the entity-soft-reference addon.
+
+
+### Entity String Representation
+The first difference is that the Schema of the String representation of the soft reference has changed. CUBA contained the `com.haulmont.cuba.core.global.EntityLoadInfo` and `com.haulmont.cuba.core.global.EntityLoadInfoBuilder` classes which represents an entity references as `<<MetaClassName>>-<<EntityId>>[-<<ViewName>>]`. Example: `example$Customer-2fdc4906-fa89-11e7-8c3f-9a214cf093ae`.
+
+Jmix does not support this schema anymore. Instead, Jmix offers the `io.jmix.core.IdSerialization` bean, which has the same functionality but the schema looks different. Examples:
+
+```
+app_UuidEntity."4e4c5ca2-9a6e-43aa-8e67-3572b674f7c0"
+app_LongIdEntity.1234  
+app_CompositeKeyEntity.{"entityId":10,"tenant":"abc"}
+```
+
+### Entity Interface Support
+
+While in CUBA every entity had to implement the `Entity` interface, Jmix does not have this requirement. The entity interface is added during the enhancement step of the build process. As a consequence it is no longer possible to rely on the common `Entity` interface in this addon and its APIs.
+
+Where in CUBA the soft reference attribute had to be of type `Entity`, for Jmix the attribute needs to be of type `java.lang.Object`.
+
+
+## CUBA Compatibility Module
+
+In order to make the transition easier when you migrate from CUBA platform, there is a CUBA compatibility module of this addon: `jmix-entity-soft-reference-cuba-starter`. The compatibility module supports the CUBA way of representing entity references as String and also support the `Entity` interface approach. By using this module, there is no need to change something in your application code when transitioning to Jmix.
+
+
+## Migrate away fom CUBA Compatability Module
+
+After you have done the initial migration of your CUBA platform project to Jmix and are running now a Jmix project with the CUBA compatibility module and the entity soft reference CUBA compatibility module, you might want to refactor your Jmix application at some point to get rid of the CUBA compatibility and instead have a legacy-free Jmix application.
+
+In order to achieve this goal, you have to perform the following steps for this addon:
+
+### Data Migration
+
+The most important step is to migrate the data. The data of all your soft references attributes has to change from the CUBA entity representation to the Jmix entity representation. Let's look into an example. Assuming you have a `Document` entity with a soft reference attribute `refersTo`. It is possible to reference either `Customer` or `Order` entities. In this case your DB table might look like this:
+
+```sql
+SELECT id, name, refers_to FROM ceuesr_document;
+```
+
+Result:
+
+| id | name | refers\_to |
+| :--- | :--- | :--- |
+| 9c2f8337-0f41-8980-ae83-86c861dc8d29 | Customer 2 Document | ceuesr\_Customer-01c4d333-7f24-8da9-9416-815e57469a0d |
+| 6d89abbb-777f-78d8-c82b-cf536c1192c5 | Order 1 Document | ceuesr\_Order-50edc3a4-794a-adf4-d802-592e74674098 |
+| 5d6fe3ca-f8f9-9af5-eb47-c1151178ca2e | Customer 1 Document | ceuesr\_Customer-05441f6d-fbb5-284d-5475-faa32265cc20 |
+
+So there are difference references to different entities (like Customer and Order in this example).
+
+To support you with this DB migration effort, the entity soft reference CUBA compatibility module contains a Service that automates this process: `de.diedavids.jmix.softreference.cuba.SoftReferenceMigrationService`.
+
+The service contains a method:
+
+```java
+<T extends Entity> boolean migrateSoftReferenceAttribute(
+        Class<T> entityClass,
+        String attribute
+);
+```
+
+
 
 ### Soft Reference usage
 
@@ -153,3 +215,8 @@ class Document {
     }
 }
 ```
+
+
+### Change Imports for UI helper classes
+* replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceInstanceNameTableColumnGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceInstanceNameTableColumnGenerator`
+* replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceFormFieldGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceFormFieldGenerator`
