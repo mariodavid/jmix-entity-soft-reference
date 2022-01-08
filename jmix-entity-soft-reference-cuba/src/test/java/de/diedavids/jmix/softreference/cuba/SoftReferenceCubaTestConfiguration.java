@@ -19,7 +19,10 @@ import javax.sql.DataSource;
 
 @SpringBootConfiguration
 @EnableAutoConfiguration
-@Import(SoftReferenceCubaConfiguration.class)
+@Import({
+        SoftReferenceConfiguration.class,
+        SoftReferenceCubaConfiguration.class
+})
 @PropertySource("classpath:/test_support/cuba-application.properties")
 @JmixModule(dependsOn = {
         SoftReferenceCubaConfiguration.class,

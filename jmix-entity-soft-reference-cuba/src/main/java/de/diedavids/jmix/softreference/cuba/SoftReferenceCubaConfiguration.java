@@ -26,7 +26,7 @@ import java.util.Collections;
 @PropertySource(name = "de.diedavids.jmix.softreference.cuba", value = "classpath:/de/diedavids/jmix/softreference/cuba/module.properties")
 public class SoftReferenceCubaConfiguration {
 
-    @Bean("softreference_SoftReferenceUiControllers")
+    @Bean("softreference_SoftReferenceCubaUiControllers")
     public UiControllersConfiguration screens(ApplicationContext applicationContext,
                                               AnnotationScanMetadataReaderFactory metadataReaderFactory) {
         UiControllersConfiguration uiControllers
