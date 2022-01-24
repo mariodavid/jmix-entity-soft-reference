@@ -6,8 +6,9 @@ import java.util.function.Consumer;
 
 public class Batches {
 
-    public static void doInBatches(int total, int batchSize, Consumer<Batch> sliceHandler) {
+    private Batches() {}
 
+    public static void doInBatches(int total, int batchSize, Consumer<Batch> sliceHandler) {
         calculate(total, batchSize)
             .forEach(sliceHandler);
     }

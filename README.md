@@ -179,15 +179,63 @@ So there are difference references to different entities (like Customer and Orde
 
 To support you with this DB migration effort, the entity soft reference CUBA compatibility module contains a Service that automates this process: `de.diedavids.jmix.softreference.cuba.SoftReferenceMigrationService`.
 
-The service contains a method:
+The service contains the following methods:
 
 ```java
-<T extends Entity> boolean migrateSoftReferenceAttribute(
-        Class<T> entityClass,
-        String attribute
-);
+
+/**
+ * Services that performs data migration from the CUBA entity representation to the Jmix entity representation.
+ *
+ * CUBA representation: example$Customer-2fdc4906-fa89-11e7-8c3f-9a214cf093ae (@see {@link com.haulmont.cuba.core.global.EntityLoadInfo}
+ * Jmix representation: example$Customer."2fdc4906-fa89-11e7-8c3f-9a214cf093ae" (@see {@link io.jmix.core.IdSerialization}).
+ *
+ */
+public interface SoftReferenceMigrationService {
+    String NAME = "softreference_SoftReferenceMigrationService";
+
+    /**
+     * migrates all soft references for a given attribute form CUBA to Jmix representation
+     *
+     * @param <T> type of the entity that holds the soft references
+     * @param entityClass the entity type that contains the soft reference attribute to migrate
+     * @param propertyWithCubaFormat the property of the entity class that contains the CUBA soft references
+     * @param propertyWithJmixFormat the new property of the entity class that shall contain the Jmix soft reference format
+     * @param batchSize the size of batch that is executed per transaction.
+     * @return true, if all soft references have been migrated, otherwise false
+     */
+    <T extends Entity> int migrateSoftReferenceAttribute(
+            Class<T> entityClass,
+            String propertyWithCubaFormat,
+            String propertyWithJmixFormat,
+            int batchSize
+    );
+
+    /**
+     * migrates all soft references for a given attribute form CUBA to Jmix representation in a batched form
+     *
+     * @param <T> type of the entity that holds the soft references
+     * @param entityClass the entity type that contains the soft reference attribute to migrate
+     * @param propertyWithCubaFormat the property of the entity class that contains the CUBA soft references
+     * @param propertyWithJmixFormat the new property of the entity class that shall contain the Jmix soft reference format
+     * @param batchSize the size of batch that is executed per transaction.
+     * @param sortProperty the attribute to sort by when batching is performed
+     * @return true, if all soft references have been migrated, otherwise false
+     */
+    <T extends Entity> int migrateSoftReferenceAttribute(
+            Class<T> entityClass,
+            String propertyWithCubaFormat,
+            String propertyWithJmixFormat,
+            int batchSize,
+            String sortProperty
+    );
+}
 ```
 
+One of those methods can be used programmatically to trigger the migration. Those methods will simply copy & reformat the values from the CUBA format to the Jmix format. NOTE: it will not touch the old values at all.
+
+INFO: The migration is idempotent, so it is safe to perform the same migration multiple times. 
+
+After this migration happened, you need to make sure in your usage of the addon, that the application does not continue to write into the fields. Depending on how much time is between the migration and the deployment of the new source code that only interacts with the new Jmix format, it might be required to perform an additional data migration after the deployment.
 
 
 ### Soft Reference usage

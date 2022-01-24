@@ -17,33 +17,34 @@ public interface SoftReferenceMigrationService {
      *
      * @param <T> type of the entity that holds the soft references
      * @param entityClass the entity type that contains the soft reference attribute to migrate
-     * @param attributeWithCubaFormat the attribute of the entity class that contains the soft references
+     * @param propertyWithCubaFormat the property of the entity class that contains the CUBA soft references
+     * @param propertyWithJmixFormat the new property of the entity class that shall contain the Jmix soft reference format
      * @param batchSize the size of batch that is executed per transaction.
      * @return true, if all soft references have been migrated, otherwise false
      */
     <T extends Entity> int migrateSoftReferenceAttribute(
             Class<T> entityClass,
-            String attributeWithCubaFormat,
-            String attributeWithJmixFormat,
+            String propertyWithCubaFormat,
+            String propertyWithJmixFormat,
             int batchSize
     );
+
     /**
      * migrates all soft references for a given attribute form CUBA to Jmix representation in a batched form
      *
      * @param <T> type of the entity that holds the soft references
      * @param entityClass the entity type that contains the soft reference attribute to migrate
-     * @param attributeWithCubaFormat the attribute of the entity class that contains the CUBA soft references
-     * @param attributeWithJmixFormat the new attribute of the entity class that shall contain the Jmix soft reference format
+     * @param propertyWithCubaFormat the property of the entity class that contains the CUBA soft references
+     * @param propertyWithJmixFormat the new property of the entity class that shall contain the Jmix soft reference format
      * @param batchSize the size of batch that is executed per transaction.
      * @param sortProperty the attribute to sort by when batching is performed
      * @return true, if all soft references have been migrated, otherwise false
      */
     <T extends Entity> int migrateSoftReferenceAttribute(
             Class<T> entityClass,
-            String attributeWithCubaFormat,
-            String attributeWithJmixFormat,
+            String propertyWithCubaFormat,
+            String propertyWithJmixFormat,
             int batchSize,
             String sortProperty
     );
-
 }
