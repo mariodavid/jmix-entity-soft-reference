@@ -58,6 +58,7 @@ class SoftReferenceMigrationServiceBeanTest {
                     Document.class,
                     "refersTo",
                     "refersToJmix",
+                    1000,
                     "id"
             );
 
@@ -81,10 +82,11 @@ class SoftReferenceMigrationServiceBeanTest {
 
             assertThatThrownBy(() ->
                     sut.migrateSoftReferenceAttribute(
-                    Document.class, // but Document does not have any property annotated with @CreatedDate
-                    "refersTo",
-                    "refersToJmix"
-            ))
+                            Document.class, // but Document does not have any property annotated with @CreatedDate
+                            "refersTo",
+                            "refersToJmix",
+                            1000
+                    ))
                     .isInstanceOf(IllegalStateException.class)
                     .hasMessageContaining("No Entity property present with annotation @CreatedDate to sort by. In case you don't have a creation timestamp property in your entity, you need to pass in the property to sort by during migration");
         }
@@ -97,20 +99,19 @@ class SoftReferenceMigrationServiceBeanTest {
                     Document.class,
                     "refersTo",
                     "refersToJmix",
-                    "id"
+                    1000, "id"
             );
 
-            // and
-            final Map<String, Object> rawDocument = jdbcTemplate.queryForList("select * from SOFTREFERENCE_DOCUMENT where ID = '" + document.getId().toString() + "'").get(0);
+            // then
+            assertThat(rawDocumentFromDatabase())
+                    .containsEntry("ID", document.getId())
+                    .containsEntry("REFERS_TO", String.format("Customer-%s", customer.getId().toString()))
+                    .containsEntry("REFERS_TO_JMIX", String.format("Customer.\"%s\"", customer.getId().toString()));
 
-            assertThat(rawDocument.get("ID"))
-                    .isEqualTo(document.getId());
+        }
 
-            assertThat(rawDocument.get("REFERS_TO_JMIX"))
-                    .isEqualTo(String.format("Customer.\"%s\"", customer.getId().toString()));
-
-            assertThat(rawDocument.get("REFERS_TO"))
-                    .isEqualTo(String.format("Customer-%s", customer.getId().toString()));
+        private Map<String, Object> rawDocumentFromDatabase() {
+            return jdbcTemplate.queryForList("select * from SOFTREFERENCE_DOCUMENT where ID = '" + document.getId().toString() + "'").get(0);
         }
     }
 

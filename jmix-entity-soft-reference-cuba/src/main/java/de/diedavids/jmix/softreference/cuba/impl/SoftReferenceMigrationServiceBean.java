@@ -35,29 +35,37 @@ public class SoftReferenceMigrationServiceBean implements SoftReferenceMigration
     MetadataTools metadataTools;
 
     @Override
-    public <T extends Entity> int migrateSoftReferenceAttribute(Class<T> entityClass, String attribute, String newAttribute) {
+    public <T extends Entity> int migrateSoftReferenceAttribute(
+            Class<T> entityClass,
+            String attributeWithCubaFormat,
+            String attributeWithJmixFormat,
+            int batchSize
+    ) {
         return findPropertyByAnnotation(entityClass, CreatedDate.class.getName())
-                .map(createdDateProperty -> migrateSoftReferenceAttribute(entityClass, attribute, newAttribute, createdDateProperty))
+                .map(createdDateProperty -> migrateSoftReferenceAttribute(entityClass, attributeWithCubaFormat, attributeWithJmixFormat, 1000, createdDateProperty))
                 .orElseThrow(() ->
                         new IllegalStateException("No Entity property present with annotation @CreatedDate to sort by. In case you don't have a creation timestamp property in your entity, you need to pass in the property to sort by during migration")
                 );
     }
 
     @Override
-    public <T extends Entity> int migrateSoftReferenceAttribute(Class<T> entityClass, String attribute, String newAttribute, String sortProperty) {
-
+    public <T extends Entity> int migrateSoftReferenceAttribute(
+            Class<T> entityClass,
+            String attributeWithCubaFormat,
+            String attributeWithJmixFormat,
+            int batchSize,
+            String sortProperty
+    ) {
         AtomicInteger total = new AtomicInteger(0);
-
-        final int batchSize = 1000;
 
         Batches.doInBatches(
                 entityCount(entityClass),
                 batchSize,
-                batch -> total.getAndAdd(performBatchSlice(batch.getStart(), batchSize, entityClass, attribute, newAttribute, sortProperty))
+                batch -> total.getAndAdd(performBatchSlice(batch.getStart(), batchSize, entityClass, attributeWithCubaFormat, attributeWithJmixFormat, sortProperty))
         );
         final List<T> allEntities = dataManager.load(entityClass).all().list();
 
-        allEntities.forEach(it -> convertSoftReferenceAttribute(it, attribute, newAttribute));
+        allEntities.forEach(it -> convertSoftReferenceAttribute(it, attributeWithCubaFormat, attributeWithJmixFormat));
 
 
         final int migratedEntities = total.get();
