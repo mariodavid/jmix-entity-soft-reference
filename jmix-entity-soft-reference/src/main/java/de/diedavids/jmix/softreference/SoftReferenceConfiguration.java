@@ -17,7 +17,7 @@ import java.util.Collections;
 @Configuration
 @ComponentScan
 @ConfigurationPropertiesScan
-@JmixModule(dependsOn = {EclipselinkConfiguration.class, UiConfiguration.class})
+@JmixModule(id = "de.diedavids.jmix.softreference", dependsOn = {EclipselinkConfiguration.class, UiConfiguration.class})
 @PropertySource(name = "de.diedavids.jmix.softreference", value = "classpath:/de/diedavids/jmix/softreference/module.properties")
 public class SoftReferenceConfiguration {
 

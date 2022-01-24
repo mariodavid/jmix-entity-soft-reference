@@ -22,7 +22,7 @@ subprojects {
     }
 
     jmix {
-        bomVersion = '1.1.1'
+        bomVersion = '1.1.2'
         projectId = 'softreference'
     }
 

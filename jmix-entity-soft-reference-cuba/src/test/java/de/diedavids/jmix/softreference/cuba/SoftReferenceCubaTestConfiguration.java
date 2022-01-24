@@ -1,5 +1,6 @@
 package de.diedavids.jmix.softreference.cuba;
 
+import com.haulmont.cuba.CubaConfiguration;
 import de.diedavids.jmix.softreference.SoftReferenceConfiguration;
 import io.jmix.core.annotation.JmixModule;
 import io.jmix.core.security.InMemoryUserRepository;
@@ -24,11 +25,14 @@ import javax.sql.DataSource;
         SoftReferenceCubaConfiguration.class
 })
 @PropertySource("classpath:/test_support/cuba-application.properties")
-@JmixModule(dependsOn = {
-        SoftReferenceCubaConfiguration.class,
+@JmixModule(
+    id = "de.diedavids.jmix.softreference.cuba.test",
+    dependsOn = {
         EclipselinkConfiguration.class,
         UiConfiguration.class,
-        SoftReferenceConfiguration.class
+        SoftReferenceConfiguration.class,
+        SoftReferenceCubaConfiguration.class,
+        CubaConfiguration.class,
 })
 public class SoftReferenceCubaTestConfiguration {
 

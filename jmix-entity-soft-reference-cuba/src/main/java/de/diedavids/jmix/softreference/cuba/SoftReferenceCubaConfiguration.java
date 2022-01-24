@@ -18,11 +18,14 @@ import java.util.Collections;
 @Configuration
 @ComponentScan
 @ConfigurationPropertiesScan
-@JmixModule(dependsOn = {
+@JmixModule(
+    id = "de.diedavids.jmix.softreference.cuba",
+    dependsOn = {
         EclipselinkConfiguration.class,
         UiConfiguration.class,
         SoftReferenceConfiguration.class
-})
+    }
+)
 @PropertySource(name = "de.diedavids.jmix.softreference.cuba", value = "classpath:/de/diedavids/jmix/softreference/cuba/module.properties")
 public class SoftReferenceCubaConfiguration {
 

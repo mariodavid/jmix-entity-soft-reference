@@ -1,6 +1,7 @@
 package de.diedavids.jmix.softreference.cuba;
 
 import io.jmix.core.Entity;
+import io.jmix.core.metamodel.model.MetaProperty;
 
 /**
  * Services that performs data migration from the CUBA entity representation to the Jmix entity representation.
@@ -15,15 +16,30 @@ public interface SoftReferenceMigrationService {
     /**
      * migrates all soft references for a given attribute form CUBA to Jmix representation
      *
+     * @param <T> type of the entity that holds the soft references
      * @param entityClass the entity type that contains the soft reference attribute to migrate
      * @param attribute the attribute of the entity class that contains the soft references
-     * @param <T> type of the entity that holds the soft references
      * @return true, if all soft references have been migrated, otherwise false
      */
-    <T extends Entity> boolean migrateSoftReferenceAttribute(
+    <T extends Entity> int migrateSoftReferenceAttribute(
             Class<T> entityClass,
             String attribute,
             String newAttribute
+    );
+    /**
+     * migrates all soft references for a given attribute form CUBA to Jmix representation
+     *
+     * @param <T> type of the entity that holds the soft references
+     * @param entityClass the entity type that contains the soft reference attribute to migrate
+     * @param attribute the attribute of the entity class that contains the soft references
+     * @param sortProperty the attribute to sort by when batching is performed
+     * @return true, if all soft references have been migrated, otherwise false
+     */
+    <T extends Entity> int migrateSoftReferenceAttribute(
+            Class<T> entityClass,
+            String attribute,
+            String newAttribute,
+            String sortProperty
     );
 
 }

@@ -1,5 +1,5 @@
 <fetchPlans xmlns="http://jmix.io/schema/core/fetch-plans">
-    <fetchPlan class="de.diedavids.jmix.softreference.test_support.Document"
+    <fetchPlan class="de.diedavids.jmix.softreference.cuba.test_support.Document"
                name="documentWithTags"
                extends="_base">
         <property name="tags" fetchPlan="_base" />

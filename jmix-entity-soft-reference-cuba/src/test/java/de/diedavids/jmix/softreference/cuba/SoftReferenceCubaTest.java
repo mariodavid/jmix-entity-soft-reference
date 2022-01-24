@@ -20,7 +20,7 @@ class SoftReferenceCubaTest {
 	}
 
 	@Test
-	void testFoo() {
+	void testDocumentSave() {
 		Document document = dataManager.create(Document.class);
 		document.setName("abc");
 

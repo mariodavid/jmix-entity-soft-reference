@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 @SpringBootConfiguration
 @EnableAutoConfiguration
 @Import(SoftReferenceConfiguration.class)
-@JmixModule(dependsOn = SoftReferenceConfiguration.class)
+@JmixModule(id = "de.diedavids.jmix.softreference.test", dependsOn = SoftReferenceConfiguration.class)
 public class SoftReferenceTestConfiguration {
 
     @Bean

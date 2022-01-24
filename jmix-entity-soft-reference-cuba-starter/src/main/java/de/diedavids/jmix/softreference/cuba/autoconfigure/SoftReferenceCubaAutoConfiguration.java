@@ -22,6 +22,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({SoftReferenceConfiguration.class})
-public class SoftReferenceAutoConfiguration {
+public class SoftReferenceCubaAutoConfiguration {
 }
 
