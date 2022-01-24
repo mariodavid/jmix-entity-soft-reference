@@ -1,5 +1,6 @@
-package de.diedavids.jmix.softreference;
+package de.diedavids.jmix.softreference.cuba;
 
+import de.diedavids.jmix.softreference.SoftReferenceConfiguration;
 import io.jmix.core.annotation.JmixModule;
 import io.jmix.core.impl.scanning.AnnotationScanMetadataReaderFactory;
 import io.jmix.eclipselink.EclipselinkConfiguration;
@@ -17,16 +18,23 @@ import java.util.Collections;
 @Configuration
 @ComponentScan
 @ConfigurationPropertiesScan
-@JmixModule(id = "de.diedavids.jmix.softreference", dependsOn = {EclipselinkConfiguration.class, UiConfiguration.class})
-@PropertySource(name = "de.diedavids.jmix.softreference", value = "classpath:/de/diedavids/jmix/softreference/module.properties")
-public class SoftReferenceConfiguration {
+@JmixModule(
+    id = "de.diedavids.jmix.softreference.cuba",
+    dependsOn = {
+        EclipselinkConfiguration.class,
+        UiConfiguration.class,
+        SoftReferenceConfiguration.class
+    }
+)
+@PropertySource(name = "de.diedavids.jmix.softreference.cuba", value = "classpath:/de/diedavids/jmix/softreference/cuba/module.properties")
+public class SoftReferenceCubaConfiguration {
 
-    @Bean("softreference_SoftReferenceUiControllers")
+    @Bean("softreference_SoftReferenceCubaUiControllers")
     public UiControllersConfiguration screens(ApplicationContext applicationContext,
                                               AnnotationScanMetadataReaderFactory metadataReaderFactory) {
         UiControllersConfiguration uiControllers
                 = new UiControllersConfiguration(applicationContext, metadataReaderFactory);
-        uiControllers.setBasePackages(Collections.singletonList("de.diedavids.jmix.softreference"));
+        uiControllers.setBasePackages(Collections.singletonList("de.diedavids.jmix.softreference.cuba"));
         return uiControllers;
     }
 }
