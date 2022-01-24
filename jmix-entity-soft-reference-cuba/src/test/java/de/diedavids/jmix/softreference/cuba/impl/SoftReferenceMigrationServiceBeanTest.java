@@ -25,7 +25,6 @@ class SoftReferenceMigrationServiceBeanTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
-
     @Autowired
     DataManager dataManager;
     @Autowired
