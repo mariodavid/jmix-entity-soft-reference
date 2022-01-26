@@ -152,6 +152,44 @@ Where in CUBA the soft reference attribute had to be of type `Entity`, for Jmix 
 
 In order to make the transition easier when you migrate from CUBA platform, there is a CUBA compatibility module of this addon: `jmix-entity-soft-reference-cuba-starter`. The compatibility module supports the CUBA way of representing entity references as String and also support the `Entity` interface approach. By using this module, there is no need to change something in your application code when transitioning to Jmix.
 
+### Soft Reference usage
+
+* replace `@MetaProperty(datatype = "EntitySoftReference")` --> `@PropertyDatatype("EntitySoftReference")` when defining a soft reference
+* replace `com.haulmont.cuba.core.entity.Entity softReferenceAttribute` with `Object softReferenceAttribute`
+* introduce and use marker interface for getter / setter of the `softReferenceAttribute` attribute
+
+#### Example
+
+```java
+@Entity
+class Document {
+    @PropertyDatatype("SoftReference")
+    @Column(name = "REFERS_TO")
+    @Convert(converter = SoftReferenceConverter.class)
+    private Object refersTo;
+
+    public SupportsDocumentReference getRefersTo() {
+        return (SupportsDocumentReference) refersTo;
+    }
+
+    public void setRefersTo(SupportsDocumentReference refersTo) {
+        this.refersTo = refersTo;
+    }
+}
+```
+
+
+### Change Imports for UI helper classes
+* replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceInstanceNameTableColumnGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceInstanceNameTableColumnGenerator`
+* replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceFormFieldGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceFormFieldGenerator`
+
+### Example application: CUBA migration
+
+You can find an example application, that has been initially developed with CUBA as a migrated project to a Jmix application. It uses the CUBA compatibility module and also the soft-reference CUBA compatibility module:
+
+* original application: https://github.com/mariodavid/cuba-example-using-entity-soft-reference
+* migrated application: https://github.com/mariodavid/jmix-entity-soft-reference-cuba-example
+
 
 ## Migrate away fom CUBA Compatability Module
 
@@ -182,7 +220,6 @@ To support you with this DB migration effort, the entity soft reference CUBA com
 The service contains the following methods:
 
 ```java
-
 /**
  * Services that performs data migration from the CUBA entity representation to the Jmix entity representation.
  *
@@ -233,38 +270,6 @@ public interface SoftReferenceMigrationService {
 
 One of those methods can be used programmatically to trigger the migration. Those methods will simply copy & reformat the values from the CUBA format to the Jmix format. NOTE: it will not touch the old values at all.
 
-INFO: The migration is idempotent, so it is safe to perform the same migration multiple times. 
+INFO: The migration is idempotent, so it is safe to perform the same migration multiple times.
 
 After this migration happened, you need to make sure in your usage of the addon, that the application does not continue to write into the fields. Depending on how much time is between the migration and the deployment of the new source code that only interacts with the new Jmix format, it might be required to perform an additional data migration after the deployment.
-
-
-### Soft Reference usage
-
-* replace `@MetaProperty(datatype = "EntitySoftReference")` --> `@PropertyDatatype("SoftReference")` when defining a soft reference
-* replace `com.haulmont.cuba.core.entity.Entity softReferenceAttribute` with `Object softReferenceAttribute`
-* introduce and use marker interface for getter / setter of the `softReferenceAttribute` attribute
-
-#### Example
-
-```java
-@Entity
-class Document {
-    @PropertyDatatype("SoftReference")
-    @Column(name = "REFERS_TO")
-    @Convert(converter = SoftReferenceConverter.class)
-    private Object refersTo;
-
-    public SupportsDocumentReference getRefersTo() {
-        return (SupportsDocumentReference) refersTo;
-    }
-
-    public void setRefersTo(SupportsDocumentReference refersTo) {
-        this.refersTo = refersTo;
-    }
-}
-```
-
-
-### Change Imports for UI helper classes
-* replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceInstanceNameTableColumnGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceInstanceNameTableColumnGenerator`
-* replace `de.diedavids.cuba.entitysoftreference.web.SoftReferenceFormFieldGenerator` --> `de.diedavids.jmix.softreference.screen.SoftReferenceFormFieldGenerator`

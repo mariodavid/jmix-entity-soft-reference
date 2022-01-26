@@ -28,7 +28,6 @@ public class SoftReferenceMigrationServiceBean implements SoftReferenceMigration
 
     @Autowired
     UnconstrainedDataManager dataManager;
-
     @Autowired
     Metadata metadata;
     @Autowired
